@@ -1,0 +1,12 @@
+
+<form class="login" (ngSubmit)="login()">
+    <h2>Welcome, User!</h2>
+    <p>Please log in</p>
+    <input type="text" [(ngModel)]="username" [ngModelOptions]="{standalone: true}" placeholder="User Name" />
+    <input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" placeholder="Password" />
+    <input type="submit" value="Log In" />
+    <!-- <div class="links">
+      <a href="#">Forgot password</a>
+      <a href="#">Register</a>
+    </div> -->
+  </form>

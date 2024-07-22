@@ -1,0 +1,100 @@
+
+<div style="margin-bottom: 1vw;">
+  <nav class="navbar navbar-expand-lg p-3" style="background-color: #27223e; padding: 0.2rem 3rem !important;">
+    <div class="container-fluid" style="display: flex; align-items: center; justify-content: space-between;">
+      <a class="navbar-brand" href="#">
+        <img id="header-logo" style="width: 50px; height: 50px;" alt="White Deer Innovation" src="https://img77.uenicdn.com/image/upload/v1665448031/business/d0171b6e-d0af-4b74-8fdd-f6f3113312bf.jpg" sizes="200px" />
+      </a>
+      <span style="color: #fff; margin-left: 2vw; font-size: 1em;">Background Verification</span>
+      
+      <span style="color: #fff; margin-left: auto; font-size: xxx-large; display: flex; align-items: center;">
+        <span style="color: #fff; font-size: large;">Welcome Annangi Shiva Prasad</span>
+        <i class="fas fa-user-circle"
+   style="margin-left: 1vw; border-radius: 50%;"
+   [ngStyle]="getBorderStyle()">
+  </i>
+      </span>
+    </div>
+  </nav>
+</div>
+
+
+
+<div class="container-fluid" style="padding: 3vw 6vw;">
+  <div id="pdfContainer" *ngIf="!showofferletter" style="margin-bottom: 4vw;">
+    <embed src="https://whitedeerinnovations.in/offer.pdf" type="application/pdf" width="100%" height="600px">
+
+      <div>
+        <div class="layout">
+          <div class="list-btn">
+            <label class="checkbox-btn">
+            <input type="checkbox" [(ngModel)]="isChecked" (change)="onCheckboxChange()">
+              <span></span>
+              Please review the offer letter attached. If you agree to accept this offer, please check the box below and click 'Submit'. By doing so, you confirm your acceptance of the terms outlined in the offer letter. If you have any questions or require further clarification, feel free to contact us at <a href="mailto:raj@whitedeerinnovation.com">{{emai_link}}</a>.
+            </label>
+          </div>
+        </div>        
+      </div>
+
+      <div style="padding: 3vw;float: right;">
+           <button style="    width: 160px;
+           height: 42px;
+           color: #fff;
+           background-color: #27223e;
+           border: 0px;"  [disabled]="!isChecked"
+    (click)="onSubmit()">Submit</button>
+      </div>
+  </div>
+
+<div *ngIf="showofferletter">
+  <mat-expansion-panel style="border-radius: 0px; margin: 0vw 1vw 1vw 1vw;" *ngFor="let doc of documents; let i = index;">
+    <mat-expansion-panel-header style="padding: 1vw 3vw;">
+      <mat-panel-title>
+        {{ doc.label }} &nbsp;<span *ngIf="doc.label !== 'Postgraduate (Optional)' && doc.label !== 'PF History (Optional)'" style="color: red;">*</span>
+        <div class="progress" style="width: 10%; margin-left: auto;">
+          <div class="progress-bar" 
+               role="progressbar" 
+               [style.width.%]="doc.progress"  
+               [style.backgroundColor]="doc.approved && doc.progress === 100  ? 'green' : 'orange'"
+               aria-valuemin="0" 
+               aria-valuemax="100">
+          </div>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="file-input-box">
+      <div class="wrapper-file-input">
+        <div class="input-box" (click)="openFileInput(i)">
+          <h4>
+            <i class="fa-solid fa-upload"></i>
+            Choose File to upload
+          </h4>
+          <input
+            #fileInput
+            [id]="'fileInput_' + i"
+            type="file"
+            hidden
+            (change)="handleFileChange($event, i)"
+            multiple
+          />
+        </div>
+        <small>Files Supported: PDF, TEXT, DOC, DOCX, JPG, PNG, SVG</small>
+      </div>
+      <div class="wrapper-file-section" *ngIf="doc.files && doc.files.length > 0">
+        <h6>Selected File</h6>
+        <ul class="file-list" [style.max-height]="doc ? '220px' : 'auto'">
+          <li class="item" *ngFor="let file of doc.files; let fileIndex = index">
+            <span class="name">
+              {{ file.fileName }} ({{ formatFileSize(file.fileSize) }})
+            </span>
+            <div class="remove" (click)="removeFile(i, doc.label , doc)">
+              <i class="fa-solid fa-trash-can"></i>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <button mat-raised-button color="primary" (click)="uploadFiles(i)">Upload Files</button>
+    </div>
+  </mat-expansion-panel>
+</div>
+</div>
